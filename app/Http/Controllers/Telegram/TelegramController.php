@@ -18,7 +18,7 @@ class TelegramController extends Controller
         $chatId = $update->getMessage()->getChat()->getId();
 
         // Tangani pesan yang masuk
-        if (strtolower($text) == 'widy') {
+        if (strtolower($text) == '/widy') {
             $responseText = "Selamat datang!";
         } else {
             $responseText = "Ketikkanmu: " . $text;
