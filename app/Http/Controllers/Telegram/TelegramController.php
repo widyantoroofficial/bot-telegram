@@ -25,33 +25,31 @@ class TelegramController extends Controller
         $text = $update->getMessage()->getText();
         $chatId = $update->getMessage()->getChat()->getId();
 
-        // Tangani pesan yang masuk
+        // Tangani perintah yang masuk
         switch (strtolower($text)) {
-            case '/users':
-                $users = User::all();
-
-                if ($users->isEmpty()) {
-                    $responseText = "Tidak ada pengguna yang tersedia.";
-                } else {
-                    $responseText = "Daftar Pengguna:\n";
-                    foreach ($users as $user) {
-                        $responseText .= "- {$user->name}\n"; // Sesuaikan dengan kolom yang ingin ditampilkan
-                    }
-                }
-                break;
             case '/start':
-                $responseText = "Bot telah dimulai.";
+                // Membuat inline keyboard
+                $inlineKeyboard = [
+                    [
+                        ['text' => 'Kunjungi WinniCode', 'url' => 'https://winnicode.com/']
+                    ]
+                ];
+
+                // Kirim pesan dengan inline keyboard
+                Telegram::sendMessage([
+                    'chat_id' => $chatId,
+                    'text' => 'Klik tombol di bawah untuk mengunjungi WinniCode:',
+                    'reply_markup' => json_encode(['inline_keyboard' => $inlineKeyboard])
+                ]);
                 break;
             default:
                 $responseText = "Maaf, perintah tidak dikenali.";
+                Telegram::sendMessage([
+                    'chat_id' => $chatId,
+                    'text' => $responseText
+                ]);
                 break;
         }
-
-        // Kirim balasan
-        Telegram::sendMessage([
-            'chat_id' => $chatId,
-            'text' => $responseText
-        ]);
 
         return response()->json(['status' => 'success']);
     }
