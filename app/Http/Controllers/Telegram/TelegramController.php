@@ -25,10 +25,25 @@ class TelegramController extends Controller
         $chatId = $update->getMessage()->getChat()->getId();
 
         // Tangani pesan yang masuk
-        if (strtolower($text) == '/widy') {
-            $responseText = "Selamat datang!";
-        } else {
-            $responseText = "Ketikkanmu: " . $text;
+        switch (strtolower($text)) {
+            case '/users':
+                $users = User::all();
+
+                if ($users->isEmpty()) {
+                    $responseText = "Tidak ada pengguna yang tersedia.";
+                } else {
+                    $responseText = "Daftar Pengguna:\n";
+                    foreach ($users as $user) {
+                        $responseText .= "- {$user->name}\n"; // Sesuaikan dengan kolom yang ingin ditampilkan
+                    }
+                }
+                break;
+            case '/start':
+                $responseText = "Bot telah dimulai.";
+                break;
+            default:
+                $responseText = "Maaf, perintah tidak dikenali.";
+                break;
         }
 
         // Kirim balasan
