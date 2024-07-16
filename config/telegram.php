@@ -130,8 +130,7 @@ return [
     |
     */
     'commands' => [
-        HelpCommand::class,
-    ],
+        /* HelpCommand::class, */],
 
     /*
     |--------------------------------------------------------------------------
@@ -191,8 +190,7 @@ return [
                 'status', // Shared Command Name.
                 'Acme\Project\Commands\BotCommand' // Full Path to Command Class.
            ],
-        */
-    ],
+        */],
 
     /*
     |--------------------------------------------------------------------------
