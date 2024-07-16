@@ -18,7 +18,7 @@ class TelegramController extends Controller
 
         // Tangani pesan yang masuk
         if ($text == '/start') {
-            $responseText = "Hello! Welcome to our bot.";
+            $responseText = "Hello! Bot telegram berhasil di buat.";
         } else {
             $responseText = "You said: " . $text;
         }
