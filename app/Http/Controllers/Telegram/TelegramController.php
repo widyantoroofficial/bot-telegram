@@ -52,7 +52,7 @@ class TelegramController extends Controller
 
         // Tangani pesan yang masuk
         switch (strtolower($text)) {
-            case '/datauser':
+            case '/users':
                 $users = User::all();
 
                 if ($users->isEmpty()) {
