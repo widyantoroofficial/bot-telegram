@@ -18,5 +18,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::post('/webhook', [App\Http\Controllers\Telegram\TelegramController::class, 'handle']);
-Route::post('/datauser', [App\Http\Controllers\Telegram\TelegramController::class, 'datauser']);
 Route::get('/set-webhook', [App\Http\Controllers\Telegram\TelegramController::class, 'setWebhook']);
