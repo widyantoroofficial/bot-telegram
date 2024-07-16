@@ -17,7 +17,7 @@ class TelegramController extends Controller
         $text = $update->getMessage()->getText();
 
         // Tangani pesan yang masuk
-        if ($text == '/start') {
+        if ($text == '/widy') {
             $responseText = "Hello! Bot telegram berhasil di buat.";
         } else {
             $responseText = "You said: " . $text;
