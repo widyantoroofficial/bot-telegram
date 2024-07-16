@@ -20,7 +20,7 @@ class TelegramController extends Controller
         if ($text == '/widy') {
             $responseText = "Hello! Bot telegram berhasil di buat.";
         } else {
-            $responseText = "You said: " . $text;
+            $responseText = "Ketikkanmu: " . $text;
         }
 
         // Kirim balasan
