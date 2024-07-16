@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Telegram;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Telegram\Bot\Laravel\Facades\Telegram;
-use Telegram\Bot\Objects\InlineQueryResultArticle;
-use Telegram\Bot\Objects\InputTextMessageContent;
 use Illuminate\Http\Request;
 
 class TelegramController extends Controller
@@ -23,36 +21,31 @@ class TelegramController extends Controller
         // Ambil data update dari webhook
         $update = Telegram::commandsHandler(true);
 
-        // Tangani inline query
-        $inlineQuery = $update->getInlineQuery();
+        // Ambil teks dari pesan yang masuk
+        $text = $update->getMessage()->getText();
+        $chatId = $update->getMessage()->getChat()->getId();
 
-        if ($inlineQuery) {
-            // Mendapatkan query dari pengguna
-            $query = $inlineQuery->getQuery();
+        // Tangani perintah yang masuk
+        switch (strtolower($text)) {
+            case '/start':
+                // Tautan dengan web page preview
+                $linkText = "Kunjungi WinniCode";
+                $linkUrl = "https://winnicode.com/";
 
-            // Buat URL yang ingin ditampilkan di Telegram
-            $url = 'https://winnicode.com/';
-
-            // Buat hasil inline query
-            $results = [
-                [
-                    'type' => 'article',
-                    'id' => '1',
-                    'title' => 'Kunjungi WinniCode',
-                    'input_message_content' => [
-                        'message_text' => "<a href='{$url}'>Kunjungi WinniCode</a>",
-                        'parse_mode' => 'HTML'
-                    ],
-                    'description' => 'Buka halaman WinniCode di Telegram',
-                ]
-            ];
-
-            // Kirim hasil inline query ke Telegram
-            Telegram::answerInlineQuery([
-                'inline_query_id' => $inlineQuery->getId(),
-                'results' => json_encode($results),
-                'cache_time' => 0
-            ]);
+                // Kirim pesan dengan tautan yang memiliki web page preview
+                Telegram::sendMessage([
+                    'chat_id' => $chatId,
+                    'text' => "<a href='{$linkUrl}'>{$linkText}</a>",
+                    'parse_mode' => 'HTML'
+                ]);
+                break;
+            default:
+                $responseText = "Maaf, perintah tidak dikenali.";
+                Telegram::sendMessage([
+                    'chat_id' => $chatId,
+                    'text' => $responseText
+                ]);
+                break;
         }
 
         return response()->json(['status' => 'success']);
