@@ -18,35 +18,16 @@ class TelegramController extends Controller
 
     public function handle(Request $request)
     {
-        // Ambil data update dari webhook
         $update = Telegram::commandsHandler(true);
 
-        // Ambil teks dari pesan yang masuk
-        $text = $update->getMessage()->getText();
         $chatId = $update->getMessage()->getChat()->getId();
 
-        // Tangani perintah yang masuk
-        switch (strtolower($text)) {
-            case '/start':
-                // Tautan dengan web page preview
-                $linkText = "Kunjungi WinniCode";
-                $linkUrl = "https://winnicode.com/";
-
-                // Kirim pesan dengan tautan yang memiliki web page preview
-                Telegram::sendMessage([
-                    'chat_id' => $chatId,
-                    'text' => "<a href='{$linkUrl}'>{$linkText}</a>",
-                    'parse_mode' => 'HTML'
-                ]);
-                break;
-            default:
-                $responseText = "Maaf, perintah tidak dikenali.";
-                Telegram::sendMessage([
-                    'chat_id' => $chatId,
-                    'text' => $responseText
-                ]);
-                break;
-        }
+        // Kirim pesan dengan Instant View
+        Telegram::sendMessage([
+            'chat_id' => $chatId,
+            'text' => "https://instantview.telegram.org/",
+            'parse_mode' => 'HTML',
+        ]);
 
         return response()->json(['status' => 'success']);
     }
