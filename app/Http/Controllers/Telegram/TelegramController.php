@@ -10,12 +10,25 @@ class TelegramController extends Controller
 {
     public function handle(Request $request)
     {
+        // Ambil data update dari webhook
+        $update = Telegram::commandsHandler(true);
+
+        // Ambil teks dari pesan yang masuk
+        $text = $update->getMessage()->getText();
+        $chatId = $update->getMessage()->getChat()->getId();
+
         // Tangani pesan yang masuk
-        if ($text == '/widy') {
-            $responseText = "Hello! Bot telegram berhasil di buat.";
+        if (strtolower($text) == 'widy') {
+            $responseText = "Selamat datang!";
         } else {
             $responseText = "Ketikkanmu: " . $text;
         }
+
+        // Kirim balasan
+        Telegram::sendMessage([
+            'chat_id' => $chatId,
+            'text' => $responseText
+        ]);
 
         return response()->json(['status' => 'success']);
     }
