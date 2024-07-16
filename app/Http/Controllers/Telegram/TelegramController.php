@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Telegram;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Telegram\Bot\Laravel\Facades\Telegram;
+use Telegram\Bot\Objects\InlineQueryResultArticle;
+use Telegram\Bot\Objects\InputTextMessageContent;
 use Illuminate\Http\Request;
 
 class TelegramController extends Controller
@@ -21,34 +23,36 @@ class TelegramController extends Controller
         // Ambil data update dari webhook
         $update = Telegram::commandsHandler(true);
 
-        // Ambil teks dari pesan yang masuk
-        $text = $update->getMessage()->getText();
-        $chatId = $update->getMessage()->getChat()->getId();
+        // Tangani inline query
+        $inlineQuery = $update->getInlineQuery();
 
-        // Tangani perintah yang masuk
-        switch (strtolower($text)) {
-            case '/start':
-                // Membuat inline keyboard
-                $inlineKeyboard = [
-                    [
-                        ['text' => 'Kunjungi WinniCode', 'url' => 'https://winnicode.com/']
-                    ]
-                ];
+        if ($inlineQuery) {
+            // Mendapatkan query dari pengguna
+            $query = $inlineQuery->getQuery();
 
-                // Kirim pesan dengan inline keyboard
-                Telegram::sendMessage([
-                    'chat_id' => $chatId,
-                    'text' => 'Klik tombol di bawah untuk mengunjungi WinniCode:',
-                    'reply_markup' => json_encode(['inline_keyboard' => $inlineKeyboard])
-                ]);
-                break;
-            default:
-                $responseText = "Maaf, perintah tidak dikenali.";
-                Telegram::sendMessage([
-                    'chat_id' => $chatId,
-                    'text' => $responseText
-                ]);
-                break;
+            // Buat URL yang ingin ditampilkan di Telegram
+            $url = 'https://winnicode.com/';
+
+            // Buat hasil inline query
+            $results = [
+                [
+                    'type' => 'article',
+                    'id' => '1',
+                    'title' => 'Kunjungi WinniCode',
+                    'input_message_content' => [
+                        'message_text' => "<a href='{$url}'>Kunjungi WinniCode</a>",
+                        'parse_mode' => 'HTML'
+                    ],
+                    'description' => 'Buka halaman WinniCode di Telegram',
+                ]
+            ];
+
+            // Kirim hasil inline query ke Telegram
+            Telegram::answerInlineQuery([
+                'inline_query_id' => $inlineQuery->getId(),
+                'results' => json_encode($results),
+                'cache_time' => 0
+            ]);
         }
 
         return response()->json(['status' => 'success']);
