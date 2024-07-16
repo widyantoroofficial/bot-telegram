@@ -18,8 +18,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::post('/webhook', [App\Http\Controllers\Telegram\TelegramController::class, 'handle']);
-Route::get('/set-webhook', function () {
-    $response = Telegram::setWebhook(['url' => 'https://bot.latihanserver.my.id/webhook']);
-
-    return $response ? 'Webhook is set' : 'Failed to set webhook';
-});
+Route::get('/set-webhook', [App\Http\Controllers\Telegram\TelegramController::class, 'setWebhook']);
