@@ -25,7 +25,7 @@ class TelegramController extends Controller
         // Kirim pesan dengan Instant View
         Telegram::sendMessage([
             'chat_id' => $chatId,
-            'text' => "https://instantview.telegram.org/",
+            'text' => "https://winnicode.com/",
             'parse_mode' => 'HTML',
         ]);
 
