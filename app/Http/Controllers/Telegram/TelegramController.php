@@ -23,6 +23,7 @@ class TelegramController extends Controller
     public function handle(Request $request)
     {
         $update = Telegram::getWebhookUpdate();
+
         if ($update->isType('callback_query')) {
             $callbackQuery = $update->getCallbackQuery();
             $callbackData = $callbackQuery->getData();
@@ -52,7 +53,8 @@ class TelegramController extends Controller
                                 ['text' => 'Export Database', 'callback_data' => 'exportdb']
                             ]
                         ]
-                    ])
+                    ]),
+                    $this->sendGambar($chatId)
                 ]);
                 break;
 
