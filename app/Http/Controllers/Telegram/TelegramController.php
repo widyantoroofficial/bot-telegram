@@ -34,7 +34,7 @@ class TelegramController extends Controller
                     'chat_id' => $chatId,
                     'text' => $responseText,
                 ]);
-                $responseText = "Silahkan Masukan Password";
+                $responseText = "Silahkan Masukan Password Untuk Export Database Pukesmas Prembun";
                 Telegram::sendMessage([
                     'chat_id' => $chatId,
                     'text' => $responseText,
