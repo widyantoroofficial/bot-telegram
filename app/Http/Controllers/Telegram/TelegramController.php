@@ -37,12 +37,17 @@ class TelegramController extends Controller
                 break;
 
             case '/exportdb':
-                $responseText = "ini db nya tong!";
+                $responseText = "ini db nya tong!!!!";
                 Telegram::sendMessage([
                     'chat_id' => $chatId,
                     'text' => $responseText,
                 ]);
                 $this->exportsemuadatabase($chatId);
+                $responseText = "makasih..dong lah";
+                Telegram::sendMessage([
+                    'chat_id' => $chatId,
+                    'text' => $responseText,
+                ]);
                 break;
 
             default:
