@@ -26,6 +26,11 @@ class TelegramController extends Controller
         $message = $update->getMessage();
         $text = $message->getText();
         $chatId = $message->getChat()->getId();
+        if ($callbackData === 'exportdb') {
+            $this->exportsemuadatabase($chatId);
+        }
+
+        return response()->json(['status' => 'success']);
 
         switch (strtolower($text)) {
             case '/start':
@@ -36,7 +41,7 @@ class TelegramController extends Controller
                     'reply_markup' => json_encode([
                         'inline_keyboard' => [
                             [
-                                ['text' => 'Export Database', 'callback_data' => 'exportdb']
+                                ['text' => 'Export Database', 'callback_data' => '/exportdb']
                             ]
                         ]
                     ])
