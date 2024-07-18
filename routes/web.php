@@ -19,4 +19,3 @@ Route::get('/', function () {
 });
 Route::post('/webhook', [App\Http\Controllers\Telegram\TelegramController::class, 'handle']);
 Route::get('/set-webhook', [App\Http\Controllers\Telegram\TelegramController::class, 'setWebhook']);
-Route::get('/exportsemuadatabase', [App\Http\Controllers\Telegram\TelegramController::class, 'exportsemuadatabase']);
