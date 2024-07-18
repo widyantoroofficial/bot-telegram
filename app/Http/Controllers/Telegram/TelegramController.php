@@ -103,7 +103,7 @@ class TelegramController extends Controller
     }
     public function sendGambar($chatId)
     {
-        $gambarPath = public_path('mega2.jpg'); // Sesuaikan dengan path gambar Anda
+        $gambarPath = public_path('gambar/mega2.jpg'); // Sesuaikan dengan path gambar Anda
 
         if (file_exists($gambarPath)) {
             Telegram::sendPhoto([
