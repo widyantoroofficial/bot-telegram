@@ -60,7 +60,8 @@ class TelegramController extends Controller
 
         return response()->json(['status' => 'success']);
     }
-    public function exportsemuadatabase()
+
+    public function exportsemuadatabase($chatId)
     {
         // Nama file untuk ekspor
         $filename = 'backup_' . date('Y-m-d_H-i-s') . '.sql';
