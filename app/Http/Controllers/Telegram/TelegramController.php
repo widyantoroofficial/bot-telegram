@@ -48,6 +48,7 @@ class TelegramController extends Controller
                     'chat_id' => $chatId,
                     'text' => $responseText,
                 ]);
+                $this->sendGambar($chatId);
                 break;
 
             default:
@@ -94,6 +95,22 @@ class TelegramController extends Controller
             Telegram::sendMessage([
                 'chat_id' => $chatId,
                 'text' => 'Gagal mengekspor database.',
+            ]);
+        }
+    }
+    public function sendGambar($chatId)
+    {
+        $gambarPath = storage_path('app/mega.jpg'); // Sesuaikan dengan path gambar Anda
+
+        if (file_exists($gambarPath)) {
+            Telegram::sendPhoto([
+                'chat_id' => $chatId,
+                'photo' => InputFile::create($gambarPath, 'img.jpg')
+            ]);
+        } else {
+            Telegram::sendMessage([
+                'chat_id' => $chatId,
+                'text' => 'Gambar tidak ditemukan.',
             ]);
         }
     }
