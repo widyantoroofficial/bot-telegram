@@ -35,7 +35,9 @@ class TelegramController extends Controller
             return response()->json(['status' => 'success']);
         }
 
-        return response()->json(['status' => 'success']);
+        $message = $update->getMessage();
+        $text = $message->getText();
+        $chatId = $message->getChat()->getId();
 
         switch (strtolower($text)) {
             case '/start':
