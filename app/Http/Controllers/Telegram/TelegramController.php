@@ -8,6 +8,8 @@ use Telegram\Bot\Laravel\Facades\Telegram;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Telegram\Bot\FileUpload\InputFile;
+use Carbon\Carbon;
 
 class TelegramController extends Controller
 {
@@ -44,11 +46,7 @@ class TelegramController extends Controller
                 break;
 
             case '/exportdb':
-                $responseText = $this->exportsemuadatabase();
-                Telegram::sendMessage([
-                    'chat_id' => $chatId,
-                    'text' => $responseText,
-                ]);
+                $this->exportsemuadatabase($chatId);
                 break;
 
             default:
@@ -83,11 +81,18 @@ class TelegramController extends Controller
         exec($command, $output, $result);
 
         if ($result === 0) {
-            // Jika berhasil, kembalikan path ke file SQL
-            return response()->download($filePath)->deleteFileAfterSend(true);
+            // Jika berhasil, kirim file ke pengguna dan hapus setelah dikirim
+            Telegram::sendDocument([
+                'chat_id' => $chatId,
+                'document' => InputFile::create($filePath, $filename)
+            ]);
+            unlink($filePath); // Hapus file setelah dikirim
         } else {
             // Jika gagal, kembalikan pesan error
-            return response()->json(['status' => 'error', 'message' => 'Failed to export database'], 500);
+            Telegram::sendMessage([
+                'chat_id' => $chatId,
+                'text' => 'Gagal mengekspor database.',
+            ]);
         }
     }
 }
