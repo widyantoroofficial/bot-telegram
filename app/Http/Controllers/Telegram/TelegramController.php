@@ -105,7 +105,7 @@ class TelegramController extends Controller
         if (file_exists($gambarPath)) {
             Telegram::sendPhoto([
                 'chat_id' => $chatId,
-                'photo' => InputFile::create($gambarPath, 'img.jpg')
+                'photo' => InputFile::create($gambarPath, 'mega.jpeg')
             ]);
         } else {
             Telegram::sendMessage([
