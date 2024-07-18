@@ -36,6 +36,14 @@ class TelegramController extends Controller
                 ]);
                 break;
 
+            case '/pw':
+                $responseText = "masukan pw";
+                Telegram::sendMessage([
+                    'chat_id' => $chatId,
+                    'text' => $responseText,
+                ]);
+                break;
+
             case '/exportdb':
                 $responseText = "ini db nya tong!!!!";
                 Telegram::sendMessage([
