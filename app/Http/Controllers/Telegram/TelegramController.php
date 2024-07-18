@@ -110,7 +110,7 @@ class TelegramController extends Controller
         } else {
             Telegram::sendMessage([
                 'chat_id' => $chatId,
-                'text' => 'Gambar tidak ditemukan.',
+                'text' => '............',
             ]);
         }
     }
