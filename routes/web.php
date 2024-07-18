@@ -18,4 +18,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::post('/webhook', [App\Http\Controllers\Telegram\TelegramController::class, 'handle']);
-Route::get('/set-webhook', [App\Http\Controllers\Telegram\WebhookController::class, 'setWebhook']);
+Route::get('/set-webhook', [App\Http\Controllers\Telegram\WebhookController::class, 'setWebhook'])->middleware('auth');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
