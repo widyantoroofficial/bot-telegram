@@ -28,17 +28,8 @@ class TelegramController extends Controller
         $chatId = $message->getChat()->getId();
 
         switch (strtolower($text)) {
-            case '/users':
-                $users = User::all();
-
-                if ($users->isEmpty()) {
-                    $responseText = "Tidak ada pengguna yang tersedia.";
-                } else {
-                    $responseText = "Daftar Pengguna:\n";
-                    foreach ($users as $user) {
-                        $responseText .= "- {$user->name}\n"; // Sesuaikan dengan kolom yang ingin ditampilkan
-                    }
-                }
+            case '/start':
+                $responseText = "Selamat datang di bot!";
                 Telegram::sendMessage([
                     'chat_id' => $chatId,
                     'text' => $responseText,
