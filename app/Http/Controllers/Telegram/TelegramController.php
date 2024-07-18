@@ -13,13 +13,6 @@ use Carbon\Carbon;
 
 class TelegramController extends Controller
 {
-    public function setWebhook()
-    {
-        $response = Telegram::setWebhook(['url' => 'https://bot.latihanserver.my.id/webhook']);
-
-        return $response ? 'Webhook is set' : 'Failed to set webhook';
-    }
-
     public function handle(Request $request)
     {
         $update = Telegram::getWebhookUpdate();
