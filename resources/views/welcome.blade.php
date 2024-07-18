@@ -9,7 +9,7 @@
 
 <body>
     <div class="container">
-        <div>
+        <div style="text-align: center;">
             <a href="/setwebhook" class="btn btn-primary">Aktifkan Web Hook</a>
         </div>
     </div>
