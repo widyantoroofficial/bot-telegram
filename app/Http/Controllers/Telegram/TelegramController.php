@@ -53,9 +53,9 @@ class TelegramController extends Controller
                                 ['text' => 'Export Database', 'callback_data' => 'exportdb']
                             ]
                         ]
-                    ]),
-                    $this->sendGambar($chatId)
+                    ])
                 ]);
+                $this->sendGambar($chatId)
                 break;
 
             case '/exportdb':
