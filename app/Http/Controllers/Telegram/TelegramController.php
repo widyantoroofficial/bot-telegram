@@ -55,7 +55,7 @@ class TelegramController extends Controller
                         ]
                     ])
                 ]);
-                $this->sendGambar($chatId)
+                $this->sendGambar($chatId);
                 break;
 
             case '/exportdb':
