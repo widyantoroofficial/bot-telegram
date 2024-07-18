@@ -10,7 +10,7 @@
 <body>
     <div class="container">
         <div style="text-align: center;">
-            <a href="/setwebhook" class="btn btn-primary">Aktifkan Web Hook</a>
+            <a href="/set-webhook" class="btn btn-primary">Aktifkan Web Hook</a>
         </div>
     </div>
 </body>
