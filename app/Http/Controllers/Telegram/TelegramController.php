@@ -30,14 +30,7 @@ class TelegramController extends Controller
         switch (strtolower($text)) {
             case '/start':
                 $responseText = "Selamat datang di bot!";
-                Telegram::sendMessage([
-                    'chat_id' => $chatId,
-                    'text' => $responseText,
-                ]);
-                break;
-
-            case '/pw':
-                $responseText = "masukan pw";
+                $responseText = "Selamat datang di bot!";
                 Telegram::sendMessage([
                     'chat_id' => $chatId,
                     'text' => $responseText,
