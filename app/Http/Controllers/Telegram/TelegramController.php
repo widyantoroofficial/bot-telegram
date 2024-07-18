@@ -41,14 +41,15 @@ class TelegramController extends Controller
 
         switch (strtolower($text)) {
             case '/start':
-                $responseText = "Selamat datang di bot!";
+                $responseText = "Selamat datang di bot! Klik tombol di bawah ini untuk mengekspor database.";
+
                 Telegram::sendMessage([
                     'chat_id' => $chatId,
                     'text' => $responseText,
                     'reply_markup' => json_encode([
                         'inline_keyboard' => [
                             [
-                                ['text' => 'Export Database', 'callback_data' => '/exportdb']
+                                ['text' => 'Export Database', 'callback_data' => 'exportdb']
                             ]
                         ]
                     ])
