@@ -23,11 +23,16 @@ class TelegramController extends Controller
     public function handle(Request $request)
     {
         $update = Telegram::getWebhookUpdate();
-        $message = $update->getMessage();
-        $text = $message->getText();
-        $chatId = $message->getChat()->getId();
-        if ($callbackData === 'exportdb') {
-            $this->exportsemuadatabase($chatId);
+        if ($update->isType('callback_query')) {
+            $callbackQuery = $update->getCallbackQuery();
+            $callbackData = $callbackQuery->getData();
+            $chatId = $callbackQuery->getMessage()->getChat()->getId();
+
+            if ($callbackData === 'exportdb') {
+                $this->exportsemuadatabase($chatId);
+            }
+
+            return response()->json(['status' => 'success']);
         }
 
         return response()->json(['status' => 'success']);
