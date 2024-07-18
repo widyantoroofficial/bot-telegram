@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Telegram\Bot\Laravel\Facades\Telegram;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class TelegramController extends Controller
 {
@@ -38,13 +40,6 @@ class TelegramController extends Controller
                         $responseText .= "- {$user->name}\n"; // Sesuaikan dengan kolom yang ingin ditampilkan
                     }
                 }
-                break;
-            case '/start':
-                $responseText = "Bot telah dimulai.";
-                break;
-            default:
-                $responseText = "Maaf, perintah tidak dikenali.";
-                break;
         }
 
         // Kirim balasan
@@ -54,5 +49,33 @@ class TelegramController extends Controller
         ]);
 
         return response()->json(['status' => 'success']);
+    }
+    public function exportsemuadatabase()
+    {
+        // Nama file untuk ekspor
+        $filename = 'backup_' . date('Y-m-d_H-i-s') . '.sql';
+        // Lokasi penyimpanan file
+        $filePath = storage_path('app/' . $filename);
+
+        // Nama database, username dan password dari konfigurasi
+        $database = env('DB_DATABASE');
+        $username = env('DB_USERNAME');
+        $password = env('DB_PASSWORD');
+
+        // Perintah mysqldump untuk mengekspor database
+        $command = "mysqldump --user={$username} --password={$password} {$database} > {$filePath}";
+
+        // Jalankan perintah
+        $result = null;
+        $output = null;
+        exec($command, $output, $result);
+
+        if ($result === 0) {
+            // Jika berhasil, kembalikan path ke file SQL
+            return response()->download($filePath)->deleteFileAfterSend(true);
+        } else {
+            // Jika gagal, kembalikan pesan error
+            return response()->json(['status' => 'error', 'message' => 'Failed to export database'], 500);
+        }
     }
 }
