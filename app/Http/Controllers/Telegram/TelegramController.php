@@ -20,14 +20,11 @@ class TelegramController extends Controller
 
     public function handle(Request $request)
     {
-        // Ambil data update dari webhook
-        $update = Telegram::commandsHandler(true);
+        $update = Telegram::getWebhookUpdate();
+        $message = $update->getMessage();
+        $text = $message->getText();
+        $chatId = $message->getChat()->getId();
 
-        // Ambil teks dari pesan yang masuk
-        $text = $update->getMessage()->getText();
-        $chatId = $update->getMessage()->getChat()->getId();
-
-        // Tangani pesan yang masuk
         switch (strtolower($text)) {
             case '/users':
                 $users = User::all();
@@ -40,13 +37,28 @@ class TelegramController extends Controller
                         $responseText .= "- {$user->name}\n"; // Sesuaikan dengan kolom yang ingin ditampilkan
                     }
                 }
-        }
+                Telegram::sendMessage([
+                    'chat_id' => $chatId,
+                    'text' => $responseText,
+                ]);
+                break;
 
-        // Kirim balasan
-        Telegram::sendMessage([
-            'chat_id' => $chatId,
-            'text' => $responseText
-        ]);
+            case '/exportdb':
+                $responseText = $this->exportsemuadatabase();
+                Telegram::sendMessage([
+                    'chat_id' => $chatId,
+                    'text' => $responseText,
+                ]);
+                break;
+
+            default:
+                $responseText = "Perintah tidak dikenal.";
+                Telegram::sendMessage([
+                    'chat_id' => $chatId,
+                    'text' => $responseText,
+                ]);
+                break;
+        }
 
         return response()->json(['status' => 'success']);
     }
