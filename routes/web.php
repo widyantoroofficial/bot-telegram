@@ -24,4 +24,10 @@ Route::get('/set-webhook', [App\Http\Controllers\Telegram\WebhookController::cla
 Route::get('/set-example', [App\Http\Controllers\Telegram\WebhookController::class, 'setexample'])->middleware('auth');
 Auth::routes();
 
+Route::get('/csrf-token', function () {
+    return response()->json([
+        'csrf_token' => csrf_token()
+    ]);
+});
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
