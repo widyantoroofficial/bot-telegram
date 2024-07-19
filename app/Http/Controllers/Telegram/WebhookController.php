@@ -14,4 +14,10 @@ class WebhookController extends Controller
 
         return $response ? 'Webhook Berhasil Diatur' : 'Failed to set webhook';
     }
+    public function example()
+    {
+        $response = Telegram::setWebhook(['url' => 'https://bot.latihanserver.my.id/example']);
+
+        return $response ? 'Webhook Berhasil Diatur' : 'Failed to set webhook';
+    }
 }

@@ -19,8 +19,9 @@ Route::get('/', function () {
 });
 Route::post('/webhook', [App\Http\Controllers\Telegram\BotPukesmasPrembunController::class, 'handle']);
 Route::post('/example', [App\Http\Controllers\Telegram\TelegramController::class, 'example']);
+//webhook
 Route::get('/set-webhook', [App\Http\Controllers\Telegram\WebhookController::class, 'setWebhook'])->middleware('auth');
-
+Route::get('/example', [App\Http\Controllers\Telegram\WebhookController::class, 'example'])->middleware('auth');
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
