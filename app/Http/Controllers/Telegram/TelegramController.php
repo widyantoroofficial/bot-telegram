@@ -13,4 +13,24 @@ use Carbon\Carbon;
 
 class TelegramController extends Controller
 {
+    public function example(Request $request)
+    {
+        switch (strtolower($text)) {
+            case '/hallo':
+                $responseText = "ada yang bisa di bantu";
+                Telegram::sendMessage([
+                    'chat_id' => $chatId,
+                    'text' => $responseText,
+                ]);
+                break;
+
+            default:
+                $responseText = "printah tidak dikenal.";
+                Telegram::sendMessage([
+                    'chat_id' => $chatId,
+                    'text' => $responseText,
+                ]);
+                break;
+        }
+    }
 }
