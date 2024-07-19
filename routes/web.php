@@ -18,10 +18,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::post('/webhook', [App\Http\Controllers\Telegram\BotPukesmasPrembunController::class, 'handle']);
-Route::post('/example', [App\Http\Controllers\Telegram\TelegramController::class, 'example']);
 //webhook
 Route::get('/set-webhook', [App\Http\Controllers\Telegram\WebhookController::class, 'setWebhook'])->middleware('auth');
-Route::get('/set-example', [App\Http\Controllers\Telegram\WebhookController::class, 'setexample'])->middleware('auth');
 Auth::routes();
 
 Route::get('/csrf-token', function () {
