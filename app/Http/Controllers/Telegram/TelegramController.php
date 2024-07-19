@@ -29,7 +29,7 @@ class TelegramController extends Controller
                 break;
 
             default:
-                $responseText = "printah tidak dikenalp.";
+                $responseText = "printah tidak dikenal.";
                 Telegram::sendMessage([
                     'chat_id' => $chatId,
                     'text' => $responseText,
