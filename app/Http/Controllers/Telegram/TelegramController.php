@@ -15,6 +15,10 @@ class TelegramController extends Controller
 {
     public function example(Request $request)
     {
+        $update = Telegram::getWebhookUpdate();
+        $message = $update->getMessage();
+        $text = $message->getText();
+        $chatId = $message->getChat()->getId();
         switch (strtolower($text)) {
             case '/hallo':
                 $responseText = "ada yang bisa di bantu";
