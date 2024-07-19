@@ -16,15 +16,28 @@ class TelegramController extends Controller
         $chatId = $message->getChat()->getId();
 
         switch (strtolower($text)) {
-            case '/hallo':
-                $responseText = "Ada yang bisa dibantu?";
-                Telegram::sendMessage(['chat_id' => $chatId, 'text' => $responseText]);
+            case '/start':
+                $responseText = "Selamat datang di bot!";
+                Telegram::sendMessage([
+                    'chat_id' => $chatId,
+                    'text' => $responseText,
+                ]);
+                $responseText = "Silahkan Masukan Password Untuk Export Database Pukesmas Prembun";
+                Telegram::sendMessage([
+                    'chat_id' => $chatId,
+                    'text' => $responseText,
+                ]);
                 break;
 
             default:
-                $responseText = "Perintah tidak dikenal.";
-                Telegram::sendMessage(['chat_id' => $chatId, 'text' => $responseText]);
+                $responseText = "Ulangi Password lu salah.";
+                Telegram::sendMessage([
+                    'chat_id' => $chatId,
+                    'text' => $responseText,
+                ]);
                 break;
         }
+
+        return response()->json(['status' => 'success']);
     }
 }
